@@ -32,3 +32,15 @@ spec:
               value: OUTSIDE://localhost:9093
             - name: KAFKA_ZOOKEEPER_CONNECT
               value: zookeeper:2181
+
+            # Add this configuration to define security protocols for each listener
+            - name: KAFKA_LISTENER_SECURITY_PROTOCOL_MAP
+              value: INSIDE:PLAINTEXT,OUTSIDE:PLAINTEXT
+            - name: KAFKA_LISTENER_NAME_INSIDE_SECURITY_PROTOCOL
+              value: PLAINTEXT
+            - name: KAFKA_LISTENER_NAME_OUTSIDE_SECURITY_PROTOCOL
+              value: PLAINTEXT
+            - name: KAFKA_LISTENER_INTERNAL_SECURITY_PROTOCOL
+              value: PLAINTEXT
+            - name: KAFKA_LISTENER_OUTSIDE_SECURITY_PROTOCOL
+              value: PLAINTEXT
