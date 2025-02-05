@@ -18,40 +18,32 @@ spec:
         - name: kafka
           image: bitnami/kafka:latest
           ports:
-            - containerPort: 9092  # Add the default Kafka port
-            - containerPort: 9093  # Add the INSIDE port for secure communication
+            - containerPort: 9092  # Default Kafka port
+            - containerPort: 9093  # Internal communication port
           env:
-            # Define the advertised listener
+            # Define the advertised listeners
             - name: KAFKA_ADVERTISED_LISTENERS
-              value: INSIDE://kafka:9093,PLAINTEXT://localhost:9092
+              value: PLAINTEXT://localhost:9092,INSIDE://kafka:9093
 
             # Define the security protocol map
             - name: KAFKA_LISTENER_SECURITY_PROTOCOL_MAP
-              value: INSIDE:PLAINTEXT,PLAINTEXT:PLAINTEXT
+              value: PLAINTEXT:PLAINTEXT,INSIDE:PLAINTEXT
 
             # Define the listener names
             - name: KAFKA_LISTENER_NAMES
-              value: INSIDE,PLAINTEXT
+              value: PLAINTEXT,INSIDE
 
             # Define the individual listeners
-            - name: KAFKA_LISTENER_INTERNAL
-              value: INSIDE://kafka:9093
-            - name: KAFKA_LISTENER_OUTSIDE
-              value: OUTSIDE://localhost:9093
-
             - name: KAFKA_LISTENER_PLAINTEXT
-              value: PLAINTEXT://:9092  # Bind PLAINTEXT to port 9092
+              value: PLAINTEXT://0.0.0.0:9092  # Bind PLAINTEXT to port 9092
+
+            - name: KAFKA_LISTENER_INSIDE
+              value: INSIDE://0.0.0.0:9093  # Bind INSIDE to port 9093
 
             # Define the listener security protocols
-            - name: KAFKA_LISTENER_NAME_INSIDE_SECURITY_PROTOCOL
-              value: PLAINTEXT
             - name: KAFKA_LISTENER_NAME_PLAINTEXT_SECURITY_PROTOCOL
               value: PLAINTEXT
-            - name: KAFKA_LISTENER_INTERNAL_SECURITY_PROTOCOL
-              value: PLAINTEXT
-            - name: KAFKA_LISTENER_OUTSIDE_SECURITY_PROTOCOL
-              value: PLAINTEXT
-            - name: KAFKA_LISTENER_PLAINTEXT_SECURITY_PROTOCOL
+            - name: KAFKA_LISTENER_NAME_INSIDE_SECURITY_PROTOCOL
               value: PLAINTEXT
 
             # Zookeeper connection
